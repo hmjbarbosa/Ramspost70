@@ -115,6 +115,7 @@ subroutine date_add_to (inyear,inmonth,indate,inhour,  &
 
 ! convert input time to seconds
 
+!hmjb
   print*,'date_add_to:: initial= ',inyear,inmonth,indate,inhour
   print*,'date_add_to:: tinc= ',tinc
   print*,'date_add_to:: tunits=' ,tunits

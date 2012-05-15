@@ -300,6 +300,7 @@ subroutine makefnam(fname,prefix,tinc,iyr,imn,idy,itm,type,post,fmt)
   character(len=1), intent(in) :: type
   character(len=40) :: dstring
 
+!hmjb
 !print*,iyr,imn,idy,itm,tinc
 !  call date_add_to(iyr,imn,idy,itm,tinc,'s',oyr,omn,ody,otm)
   call date_add_to(iyr,imn,idy,itm,-1.,'s',oyr,omn,ody,otm)
