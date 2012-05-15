@@ -1,0 +1,92 @@
+#Makefile Make.utils
+############################## Change Log ##################################
+# 1.0.0.0
+#
+# 000908 MJB Make.utils ##
+#            New methodology in rules and targets (including removal of
+#            alternate targets for IBM).
+#            Added dependencies on include and use files. ##
+#
+############################################################################
+
+.SUFFIXES:
+.SUFFIXES: .f90 .F90 .f .c .o .a
+
+# Include definitions (if this does not work, try using gnu make or copy the
+# contents of the file include.mk here).
+
+include ./paths.mk
+include ./include.mk.opt.ramspost.intel
+
+# Compiler commands.
+
+#INCLUDES   = -I$(UTILS_INCS) $(PAR_INCS) -I$(RCIO_INC) 
+INCLUDES   = -I$(RCIO_INC)
+F_COMMAND  = $(F_COMP) -c $(F_OPTS) $(INCLUDES) 
+C_COMMAND  = $(C_COMP) -c $(C_OPTS) -D$(CMACH) $(INCLUDES) $(PAR_DEFS)
+
+# Define archive names.
+
+BASE=libutils
+ARC=./$(BASE)-intel-$(UTILS_VERSION)-ramspost.a
+
+# Define objects.
+
+include ./objects.mk
+
+# Define rules.
+
+.f90.a:
+	@echo ""
+	cp -f $< $(<F:.f90=.f90)
+	$(F_COMMAND) $(<F:.f90=.f90)
+	$(ARCHIVE) $@ $(<F:.f90=.o)
+	rm -f $(<F:.f90=.f90) $(<F:.f90=.o)
+
+# For non-IBM
+.F90.a:
+	@echo ""
+	cp -f $< $(<F:.F90=.F90)
+	$(F_COMMAND) -D$(CMACH) $(<F:.F90=.F90)
+	$(ARCHIVE) $@ $(<F:.F90=.o)
+	rm -f $(<F:.F90=.F90) $(<F:.F90=.o)
+
+# For IBM
+#.F90.a:
+#	@echo ""
+#	$(C_COMMAND) $(C_PP_OPTS) $<
+#	mv $(<F:.F90=.i) $(<F:.F90=.f)
+#	$(F_COMMAND) $(<F:.F90=.f)
+#	$(ARCHIVE) $@ $(<F:.F90=.o)
+#	rm -f $(<F:.F90=.f) $(<F:.F90=.o)
+
+.c.a:
+	@echo ""
+	$(C_COMMAND) $<
+	$(ARCHIVE) $@ $(<F:.c=.o)
+	rm -f $(<F:.c=.o)
+      
+# Define targets.
+
+all:  $(ARC)
+	@echo ""
+	@echo Finished building === $(ARC)
+	@echo ""
+
+$(ARC): $(OBJ)
+
+FORCE:
+
+check: FORCE
+	@echo ""
+	check
+
+clean:
+	@echo ""
+	rm -f $(ARC) *.o *.mod
+	@echo ""
+      
+# Include dependencies (if this does not work, try using gnu make or copy the
+# contents of the file dep_utils here).
+
+#include depend.mk

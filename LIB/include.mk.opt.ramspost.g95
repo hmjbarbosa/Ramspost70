@@ -1,0 +1,23 @@
+#Makefile include include.mk
+
+# Define make (gnu make works best).
+
+MAKE=/usr/bin/make
+
+# Machine-dependent options.
+#---------------------  LINUX Gnu gcc/g95  -----------------------
+CMACH=PC_LINUX1
+F_COMP=g95
+F_OPTS=-O3 -fno-second-underscore -fmultiple-save
+C_COMP=gcc
+C_OPTS=-O3 -DUNDERSCORE -DLITTLE
+LOADER=g95
+#LOADER_OPTS=-O3 -fno-second-underscore
+LOADER_OPTS=-O3
+LIBS=
+#-----------------------------------------------------------------
+
+# For IBM,HP,SGI,ALPHA use these:
+ARCHIVE=ar rs
+# For SUN,CONVEX
+#ARCHIVE=ar r'

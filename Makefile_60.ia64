@@ -1,0 +1,44 @@
+include include_ramspost_ia64.mk
+
+# Compiler commands.
+
+INCLUDES  = -I$(UTILS_INCS)
+F_COMMAND = $(F_COMP) -c $(F_OPTS) $(INCLUDES)
+
+# Define archive and executable names.
+
+BASE=ramspost_60
+EXE=$(BASE)
+ARC=$(BASE).a
+
+# Define source.
+
+
+F_SRC = \
+	./anheader.f90 \
+        $(RAMSPOST)/ramspost_B.f90 \
+        $(RAMSPOST)/ramspost_D.f90 \
+        $(RAMSPOST)/ramspost_C.f90 
+ 
+# Define targets.
+
+all: $(EXE)
+
+$(EXE): $(LIBUTILS) $(ARC) 
+	$(LOADER) -o $(EXE) $(LOADER_OPTS) ramspost_A.o $(ARC) $(LIBUTILS)
+###	ln -fs $(EXE) $(BASE)
+	rm -f r*.o
+
+$(ARC): $(F_SRC)
+	$(F_COMMAND) $(?)
+	$(ARCHIVE) $(ARC) *.o
+	$(F_COMMAND) $(RAMSPOST)/ramspost_A.f90
+#	rm -f *.o
+
+
+install:
+#	ln -fs `pwd`/$(EXE) ../run/$(BASE)
+#	ln -fs `pwd`/$(EXE) ../test/$(BASE)
+
+clean:
+	rm -f $(ARC) $(EXE) $(BASE) *.o  ___* core* *.mod

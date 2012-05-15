@@ -1,0 +1,25 @@
+#Makefile include include.mk
+
+# Define make (gnu make works best).
+MAKE=/usr/bin/make
+
+# Machine-dependent options.
+#---------------- ITANIUM-2 NEC-SX6 ------------------------------
+CMACH=PC_LINUX1
+
+F_COMP=efc
+F_OPTS=-O3
+
+C_COMP=ecc
+C_OPTS=-O3
+
+LOADER=efc
+LOADER_OPTS=-O3 -Vaxlib
+
+LIBS=
+#-----------------------------------------------------------------
+
+# For IBM,HP,SGI,ALPHA use these:
+ARCHIVE=ar rs
+# For SUN,CONVEX
+#ARCHIVE=ar r'

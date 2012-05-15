@@ -1,0 +1,51 @@
+&RP_INPUT
+
+    FPREFIX = '/home/massaru/CATT-BRAMS-OPERACIONAL/work/A/OPQUE-Intel-A-2007-02-24',
+
+    NVP = 24,
+
+    VP = 'sst'    ,
+         'topo'   ,
+         'ndvi'   ,
+         'CO'     ,
+         'COstc'  ,
+         'COANT' ,
+         'PMINT'  ,
+         'PM25'   ,
+         'src1'   ,
+         'src2'   ,
+         'wdm3'   ,      
+         'aot500' ,
+         'aot550' ,
+         'tempc'  ,
+         'w'      ,
+         'totpcp' ,
+         'tke'    ,
+         'rshort' ,
+         'rlong'  ,
+         'shmf'   ,
+         'upmf'   ,
+         'curtdp' ,
+         'curtsh' ,
+         'src3'   ,
+
+    GPREFIX = 'catt-brams',
+!    ANL2GRA ='ONE',
+
+    PROJ ='YES',
+!    MEAN_TYPE ='BAV',
+!    MEAN_TYPE ='VMP',
+    LATI =  -90., -42.,  -90.,
+    LATF =   90.,  12.,   90.,
+    LONI = -180., -82., -180.,
+    LONF =  180., -36.,  180.,
+    
+    
+    
+    ZLEVMAX = 31,31,31,
+    
+    IPRESSLEV = 0,
+    INPLEVS = 12,
+     IPLEVS = 9999, 850, 700,500,350, 250, 150,
+
+ &end

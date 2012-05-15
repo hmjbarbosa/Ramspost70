@@ -1,0 +1,27 @@
+#Makefile include include.mk
+
+# Define make (gnu make works best).
+MAKE=/usr/bin/make
+
+# libraries.
+
+# HDF libraries
+HDF_LIBS=-L/shared/tools/HDF_lib -lmfhdf -ldf -ljpeg -lz
+
+# Machine-dependent options.
+#---------------------  NEC-SX6 ----------------------------------
+CMACH=NEC_SX
+F_COMP=sxf90
+F_OPTS=
+
+C_COMP=sxc++
+C_OPTS=-f90lib
+LOADER=sxf90
+LOADER_OPTS=
+LIBS=
+#-----------------------------------------------------------------
+
+# For IBM,HP,SGI,ALPHA,SX use these:
+ARCHIVE=ar rs
+# For SUN,CONVEX
+#ARCHIVE=ar r'

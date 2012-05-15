@@ -1,0 +1,22 @@
+#Makefile include include.mk
+
+# Define make (gnu make works best).
+
+MAKE=/usr/bin/make
+
+# Machine-dependent options.
+#---------------------  LINUX Gnu gcc/af95  ----------------------
+CMACH=PC_LINUX1
+F_COMP=af95
+F_OPTS=-O3 -YEXT_SFX=_ -YEXT_NAMES=LCS -s -YCFRL=1 -lU77 -OPT:Olimit=0
+C_COMP=gcc
+C_OPTS=-O3 -DUNDERSCORE -DLITTLE
+LOADER=af95
+LOADER_OPTS=-O3 -YEXT_SFX=_ -YEXT_NAMES=LCS -s -YCFRL=1 -lU77 -OPT:Olimit=0
+LIBS=
+#-----------------------------------------------------------------
+
+# For IBM,HP,SGI,ALPHA use these:
+ARCHIVE=ar rs
+# For SUN,CONVEX
+#ARCHIVE=ar r'
