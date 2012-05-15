@@ -7,11 +7,11 @@ MAKE=/usr/bin/make
 #-------------  LINUX Intel v. 8.1 free ifort/icc  ---------------
 CMACH=PC_LINUX1
 F_COMP=ifort
-F_OPTS=-assume byterecl -Vaxlib -FR -O3 -zero -static
+F_OPTS=-assume byterecl -FR -O3 -zero -static
 C_COMP=icc
-C_OPTS=-O3 -tpp6 -static -DUNDERSCORE -DLITTLE
+C_OPTS=-O3 -static -DUNDERSCORE -DLITTLE
 LOADER=ifort
-LOADER_OPTS=-assume byterecl -static -Vaxlib -FR -O3 -zero
+LOADER_OPTS=-assume byterecl -static -FR -O3 -zero
 LIBS=
 #-----------------------------------------------------------------
 

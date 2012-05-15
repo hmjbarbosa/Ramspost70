@@ -1,14 +1,3 @@
-Use one this options to compile:
-
- - Intel   : ./comp.sh intel
- - G95     : ./comp.sh g95
- - Portand : ./comp.sh pgi
- - Absoft  : ./comp.sh af95
-
-Cleanning generated files (*.o *.mod *.a and binaries):
-
- - Intel   :   ./comp.sh intel clean
- - g95     :   ./comp.sh g95 clean 
- - Portand :   ./comp.sh pgi clean
- - Absoft  :   ./comp.sh af95 clean
-
+This is an improved version of Ramspost60 that is distributed with
+BRAMS.  For this new version, the 'ONE' option is actually working!
+Effort is being made to include a grib output.

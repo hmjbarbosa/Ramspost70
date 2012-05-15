@@ -4453,7 +4453,8 @@ subroutine RAMS_comp(n1,n2,n3,n4,n5)
         enddo
      enddo
   enddo
-  write(*,'(a,e12.6)') '-> total- ',tot
+!hmjb  write(*,'(a,e12.6)') '-> total- ',tot
+  write(*,'(a,e13.6)') '-> total- ',tot
   return
 
   entry RAMS_comp_maxval(n1,n2,n3,a)
@@ -4470,7 +4471,8 @@ subroutine RAMS_comp(n1,n2,n3,n4,n5)
         enddo
      enddo
   enddo
-  write(*,'(a,e12.6,a,3i3)') '-> max- ',zmax,' at i,j,k-',maxx  &
+!hmjb  write(*,'(a,e12.6,a,3i3)') '-> max- ',zmax,' at i,j,k-',maxx  &
+  write(*,'(a,e13.6,a,3i3)') '-> max- ',zmax,' at i,j,k-',maxx  &
        ,maxy,maxz
   return
 
@@ -4488,7 +4490,8 @@ subroutine RAMS_comp(n1,n2,n3,n4,n5)
         enddo
      enddo
   enddo
-  write(*,'(a,e12.6,a,3i3)') '-> min- ',zmin,' at i,j,k-',minx  &
+!hmjb  write(*,'(a,e12.6,a,3i3)') '-> min- ',zmin,' at i,j,k-',minx  &
+  write(*,'(a,e13.6,a,3i3)') '-> min- ',zmin,' at i,j,k-',minx  &
        ,miny,minz
   return
 
