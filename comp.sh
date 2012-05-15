@@ -21,28 +21,29 @@
 # 18/05/2005
 # **********************************************************************
 
-function Display_not-arg() {
-
-echo "Set a compiler!"
-echo ""
-echo "Compiling:"
-echo " - Intel      : ./comp.sh intel"
-echo " - G95        : ./comp.sh g95"
-echo " - Portland   : ./comp.sh pgi"
-echo " - Absoft     : ./comp.sh af95"
-echo ""
-echo "Cleannig:"
-echo " - Intel      : ./comp.sh intel clean"
-echo " - G95        : ./comp.sh g95 clean"
-echo " - Portland   : ./comp.sh pgi clean"
-echo " - Absoft     : ./comp.sh af95 clean"
-echo ""
-
-}
+# function Display_not-arg() {
+# 
+# echo "Set a compiler!"
+# echo ""
+# echo "Compiling:"
+# echo " - Intel      : ./comp.sh intel"
+# echo " - G95        : ./comp.sh g95"
+# echo " - Portland   : ./comp.sh pgi"
+# echo " - Absoft     : ./comp.sh af95"
+# echo ""
+# echo "Cleannig:"
+# echo " - Intel      : ./comp.sh intel clean"
+# echo " - G95        : ./comp.sh g95 clean"
+# echo " - Portland   : ./comp.sh pgi clean"
+# echo " - Absoft     : ./comp.sh af95 clean"
+# echo ""
+# 
+# }
 
 
 if [ "$1" = "" ]; then
-  Display_not-arg
+#  Display_not-arg
+    cat $0
 else
   # Argumentos
   ARG1=$1

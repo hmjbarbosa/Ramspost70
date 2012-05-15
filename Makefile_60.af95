@@ -7,7 +7,7 @@ F_COMMAND = $(F_COMP) -c $(F_OPTS) $(INCLUDES)
 
 # Define archive and executable names.
 
-BASE=ramspost_60-af95
+BASE=ramspost_70-af95
 EXE=$(BASE)
 ARC=$(BASE).a
 

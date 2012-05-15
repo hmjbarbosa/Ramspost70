@@ -89,7 +89,7 @@ program ramspost
   call RAMS_get_time_init(1,iyear,imonth,idate,ihour,imin)
   call RAMS_get_time_step(iistep,hunit,nfiles)
 
-!  print*,iyear,imonth,idate,ihour,imin      
+  !  print*,iyear,imonth,idate,ihour,imin      
   write(chdate(1:2),'(i2.2)') ihour
   write(chdate(4:5),'(i2.2)') imin
   write(chdate(7:8),'(i2.2)') idate
@@ -160,11 +160,11 @@ program ramspost
      !     ----------------------
      write(cgrid,'(i1)')ng
      if(anl2gra(1:ianl2gra) .ne. 'ONE' .and. &
-        anl2gra(1:ianl2gra) .ne. 'one' ) then
-       open(19,file=gprefix(1:ic)//'_g'//cgrid//'.gra',         &
-            form='unformatted',access='direct',status='unknown',  &
-            recl=4*(nxb(ng)-nxa(ng)+1)*(nyb(ng)-nya(ng)+1))	  
-       nrec=0
+          anl2gra(1:ianl2gra) .ne. 'one' ) then
+        open(19,file=gprefix(1:ic)//'_g'//cgrid//'.gra',         &
+             form='unformatted',access='direct',status='unknown',  &
+             recl=4*(nxb(ng)-nxa(ng)+1)*(nyb(ng)-nya(ng)+1))	  
+        nrec=0
      endif
 
      do nfn=1,nfiles,nstep
@@ -174,25 +174,25 @@ program ramspost
         cfln=fln(nfn)
         ip=lastchar(cfln)-9
         !.................
-!.................
-! open arquivos individuais
-     !     ----------------------
-     !     - WRITE GRADS BINARY -
-     !     ----------------------
-       if(anl2gra(1:ianl2gra) .eq. 'ONE' .or. &
-          anl2gra(1:ianl2gra) .eq. 'one' ) then
+        !.................
+        ! open arquivos individuais
+        !     ----------------------
+        !     - WRITE GRADS BINARY -
+        !     ----------------------
+        if(anl2gra(1:ianl2gra) .eq. 'ONE' .or. &
+             anl2gra(1:ianl2gra) .eq. 'one' ) then
            !print*,ftimes(nfn),ifdates(nfn),iftimes(nfn),startutc,httop 
            call date1(ifdates(nfn),iyear,imon,idate)
            call makefnam(wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
-                        iftimes(nfn),'A','g'//cgrid,'gra')
-      
+                iftimes(nfn),'A','g'//cgrid,'gra')
+
            !print*,iyear,imon,idate,iftimes(nfn),wfln(nfn)
            iunit=19
            open(iunit,file=wfln(nfn),form='unformatted',access='direct'         &
-               ,status='unknown',recl=4*(nxb(ng)-nxa(ng)+1)*(nyb(ng)-nya(ng)+1))	  
+                ,status='unknown',recl=4*(nxb(ng)-nxa(ng)+1)*(nyb(ng)-nya(ng)+1))	  
            nrec=0
-	endif
-!.................
+        endif
+        !.................
 
 !!$        print *, "DEBUG-ALF:checkpoint A"
 
@@ -211,7 +211,7 @@ program ramspost
 !!$        print *, "DEBUG-ALF:nvp=", nvp
 
 
-      DO iv=1,nvp
+        DO iv=1,nvp
            !.................
 
 !!$           print *, "DEBUG-ALF:iv=", iv
@@ -259,12 +259,12 @@ program ramspost
               !
            ELSEIF(ndim(iv).eq.7)  THEN
               nzvp(iv)=iep_np
-	      Call proj_rams_to_grads(vp(iv),ndim(iv),      &
+              Call proj_rams_to_grads(vp(iv),ndim(iv),      &
                    iep_nx(ng),iep_ny(ng),nzvp(iv),  &
                    nxgrads(ng),nygrads(ng),	    &
                    rmi,iinf,jinf,		    &
                    rout,routgrads,rlat,rlon,proj(1:iproj))
-	      do ipatch=1,iep_np
+              do ipatch=1,iep_np
                  Call ep_putvar(routgrads,a,nxgrads(ng),nygrads(ng), &
                       nxa(ng),nxb(ng),nya(ng),nyb(ng),	   &
                       nzvp(iv),nrec,ipatch,ipatch)
@@ -286,7 +286,7 @@ program ramspost
               !			      nzvp(iv),nrec,1,iep_ng)
               !!.....
               !
-	   ELSEIF(ndim(iv).eq.3)  THEN
+           ELSEIF(ndim(iv).eq.3)  THEN
               nzvp(iv)=iep_nz(ng)
               !..
               if(ipresslev.eq.1) then
@@ -352,7 +352,7 @@ program ramspost
                  !!..
               endif
               !!
-	   Endif
+           Endif
            !!................
            !
            !
@@ -366,9 +366,9 @@ program ramspost
         !.................
 
         if(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') close(19)
-       enddo ! enddo do NFILES
+     enddo ! enddo do NFILES
 
-      if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one')  close(19)
+     if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one')  close(19)
 
 
      !.................
@@ -378,127 +378,170 @@ program ramspost
 
      write(cgrid,'(i1)')ng
      iunit = 20
-     
+
      do nfn=1,nfiles,nstep
+print*,'----------- file=',nfn
 
-     iuniti=iunit
-     iunitf=iunit
+        iuniti=iunit
+        iunitf=iunit
 
-! case 1 : all analysis at only one grads file
-!----
-      if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
-         nfn == 1 ) then 
+        ! case 1 : all analysis at only one grads file
+        !----
+        if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
+             nfn == 1 ) then 
            open(iunit,file=gprefix(1:ic)//'_g'//cgrid//'.ctl', &
                 status='unknown')
            write(iunit,2001) '^'//gprefix(1:ic)//'_g'//cgrid//'.gra'
-! case 2 : one analysis at one grads file
-      elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
-	   call date1(ifdates(nfn),iyear,imon,idate)	   
+           ! case 2 : one analysis at one grads file
+        elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
+!hmjb
+print*,'h1=',ifdates(nfn),iyear,imon,idate
+           call date1(ifdates(nfn),iyear,imon,idate)
+print*,'hh1=',ifdates(nfn),iyear,imon,idate
+
+
+print*,'h2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
+     iftimes(nfn),'A','g'//cgrid,'ctl'
            call makefnam(wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
-                        iftimes(nfn),'A','g'//cgrid,'ctl')      
+                iftimes(nfn),'A','g'//cgrid,'ctl')      
+print*,'hh2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
+     iftimes(nfn),'A','g'//cgrid,'ctl'
+
            open(iunit,file=wfln(nfn),status='unknown')
+
+print*,'h3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
            write(iunit,2001) '^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
-! case 2 with template
+print*,'hh3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
+
+           ! case 2 with template
            if(nfn==1) then
-	     call date1(ifdates(nfn),iyear,imon,idate)	   
-             call makefnam(wfln(nfn),gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
-                        iftimes(nfn),'A','g'//cgrid,'ctl')      
-             open(iunit+1,file=wfln(nfn),status='unknown')
-!valido somente para hora cheia  --------------------------------------vvvv-
-             write(iunit+1,2001) '^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h20000-'//'g'//cgrid//'.gra'
-             write(iunit+1,2002) 'options template'
-	     iunitf=iunit+1
-	   endif   
-	   
-      endif
-!----
+              call date1(ifdates(nfn),iyear,imon,idate)	   
 
-      do iunit=iuniti,iunitf
-           
-       write(iunit,2002) 'undef -9.99e33'
-       write(iunit,2002) 'title RAMS 4.2 Output'
-       write(iunit,2003) nxb(ng)-nxa(ng)+1,(dep_glon(i,ng),i=1,2)
-       write(iunit,2004) nyb(ng)-nya(ng)+1,(dep_glat(i,ng),i=1,2)
-       if(ipresslev.gt.0.and.ipresslev.le.2) then
-         write(iunit,2005) inplevs,(iplevs(i)*1.0,i=1,inplevs)
-       elseif(ipresslev.eq.3) then
-         write(iunit,2005) inplevs,(dep_zlev(iplevs(i),ng),i=1,inplevs)
-       else
-        if(zlevmax(ng)+1.lt.15) then
-           write(iunit,2005) zlevmax(ng), &
-                (dep_zlev(i,ng),i=2,zlevmax(ng)+1)
-        else
-           write(iunit,2005) zlevmax(ng),(dep_zlev(i,ng),i=2,15)
-           write(iunit,2055) (dep_zlev(i,ng),i=16,zlevmax(ng)+1)
+print*,'h4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
+     iftimes(nfn),'A','g'//cgrid,'ctl'
+              call makefnam(wfln(nfn),gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
+                   iftimes(nfn),'A','g'//cgrid,'ctl')      
+print*,'hh4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
+     iftimes(nfn),'A','g'//cgrid,'ctl'
+
+
+              open(iunit+1,file=wfln(nfn),status='unknown')
+              !valido somente para hora cheia  --------------------------------------vvvv-
+
+print*,'h5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
+              write(iunit+1,2001) '^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
+print*,'hh5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
+              write(iunit+1,2002) 'options template'
+              iunitf=iunit+1
+           endif
+
         endif
-       endif
-! case 1
-       if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
-         nfn == 1 ) then 
-         write(iunit,2006) nfiles,chdate,chstep
-! case 2
-       elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
+        !----
 
-        call RAMS_get_time_init(nfn,iyear,imonth,idate,ihour,imin)
-        write(chdate(1:2),'(i2.2)') ihour
-    	write(chdate(4:5),'(i2.2)') imin
-    	write(chdate(7:8),'(i2.2)') idate
-    	write(chdate(12:15),'(i4.2)') iyear
-    	chdate(9:11)=cmo(imonth)(1:3)
+        do iunit=iuniti,iunitf
+print*,'==== iunit=',iunit
 
-       if(iunitf== iuniti)   write(iunit,2006) 1,chdate,chstep
-       if(iunitf== iuniti+1) write(iunit,2006) nfiles,chdate,chstep ! para template
-       
-       endif
-!----
-       write(iunit,2007) nnvp
-       do i=1,nvp
-
-        if(ipresslev.gt.0.and.nzvp(i).eq.iep_nz(ng)) then
-           write(iunit,2008) vp(i),inplevs,vpln(i),vpun(i)
-        else
-           if(ndim(i).eq.3) &
-                write(iunit,2008) vp(i),zlevmax(ng),vpln(i),vpun(i)
-
-           if(ndim(i).eq.2) &
-                write(iunit,2008) vp(i),0,vpln(i),vpun(i)
-
-           if(ndim(i).eq.7) then
-              il =lastchar(vp(i))
-              il2=lastchar(vpln(i))
-              do ipatch=1,iep_np
-                 write(patchnumber,'(i1)')ipatch
-                 cdum2=vp(i)(1:il)//patchnumber
-                 cdum1=vpln(i)(1:il2)//': patch # '//patchnumber
-                 write(iunit,2008) cdum2,0,cdum1,vpun(i)
-              enddo
+           write(iunit,2002) 'undef -9.99e33'
+           write(iunit,2002) 'title RAMS 4.2 Output'
+           write(iunit,2003) nxb(ng)-nxa(ng)+1,(dep_glon(i,ng),i=1,2)
+           write(iunit,2004) nyb(ng)-nya(ng)+1,(dep_glat(i,ng),i=1,2)
+           if(ipresslev.gt.0.and.ipresslev.le.2) then
+              write(iunit,2005) inplevs,(iplevs(i)*1.0,i=1,inplevs)
+           elseif(ipresslev.eq.3) then
+              write(iunit,2005) inplevs,(dep_zlev(iplevs(i),ng),i=1,inplevs)
+           else
+              if(zlevmax(ng)+1.lt.15) then
+                 write(iunit,2005) zlevmax(ng), &
+                      (dep_zlev(i,ng),i=2,zlevmax(ng)+1)
+              else
+                 write(iunit,2005) zlevmax(ng),(dep_zlev(i,ng),i=2,15)
+                 write(iunit,2055) (dep_zlev(i,ng),i=16,zlevmax(ng)+1)
+              endif
            endif
-           if(ndim(i).eq.8) then
-              il =lastchar(vp(i))
-              il2=lastchar(vpln(i))
-              do ipatch=1,iep_np
-                 write(patchnumber,'(i1)')ipatch
-                 cdum2=vp(i)(1:il)//patchnumber
-                 cdum1=vpln(i)(1:il2)//': patch # '//patchnumber
-                 write(iunit,2008) cdum2,nzvp(i),cdum1,vpun(i)
-              enddo
+           ! case 1
+           if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
+                nfn == 1 ) then 
+              write(iunit,2006) nfiles,chdate,chstep
+              ! case 2
+           elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
+
+print*,'h6=',nfn,iyear,imonth,idate,ihour,imin
+print*,'iftime=',iftimes(nfn)
+!              call RAMS_get_time_init(nfn,iyear,imonth,idate,ihour,imin)
+!              write(chdate(1:2),'(i2.2)') ihour
+!              write(chdate(4:5),'(i2.2)') imin
+ihour=int(iftimes(nfn)/10000)
+imin=(iftimes(nfn)-ihour*10000)/100
+              write(chdate(1:2),'(i2.2)') ihour
+              write(chdate(4:5),'(i2.2)') imin
+              write(chdate(7:8),'(i2.2)') idate
+              write(chdate(12:15),'(i4.2)') iyear
+print*,'h7=',ihour,imin,idate,iyear
+              chdate(9:11)=cmo(imonth)(1:3)
+print*,'h8=',chdate
+
+print*,'escrevendo=',iuniti,iuniti+1,iunitf
+!              if(iunitf== iuniti)   then
+              if(iunit== iuniti)   then
+print*,'aqui a'                 
+                 write(iunit,2006) 1,chdate,chstep
+              endif
+!              if(iunitf== iuniti+1) then
+              if(iunit== iuniti+1) then
+print*,'aqui b'                 
+                 write(iunit,2006) nfiles,chdate,chstep ! para template
+              endif
+
            endif
+           !----
+           write(iunit,2007) nnvp
+           do i=1,nvp
 
-           if(ndim(i).eq.5) &
-                write(iunit,2008) vp(i),nzvp(i),vpln(i),vpun(i)
+              if(ipresslev.gt.0.and.nzvp(i).eq.iep_nz(ng)) then
+                 write(iunit,2008) vp(i),inplevs,vpln(i),vpun(i)
+              else
+                 if(ndim(i).eq.3) &
+                      write(iunit,2008) vp(i),zlevmax(ng),vpln(i),vpun(i)
 
-         endif
-       enddo
-       write(iunit,2002) 'endvars'
-       close(iunit)
+                 if(ndim(i).eq.2) &
+                      write(iunit,2008) vp(i),0,vpln(i),vpun(i)
 
-      enddo ! enddo nas unidades de escrita
+                 if(ndim(i).eq.7) then
+                    il =lastchar(vp(i))
+                    il2=lastchar(vpln(i))
+                    do ipatch=1,iep_np
+                       write(patchnumber,'(i1)')ipatch
+                       cdum2=vp(i)(1:il)//patchnumber
+                       cdum1=vpln(i)(1:il2)//': patch # '//patchnumber
+                       write(iunit,2008) cdum2,0,cdum1,vpun(i)
+                    enddo
+                 endif
+                 if(ndim(i).eq.8) then
+                    il =lastchar(vp(i))
+                    il2=lastchar(vpln(i))
+                    do ipatch=1,iep_np
+                       write(patchnumber,'(i1)')ipatch
+                       cdum2=vp(i)(1:il)//patchnumber
+                       cdum1=vpln(i)(1:il2)//': patch # '//patchnumber
+                       write(iunit,2008) cdum2,nzvp(i),cdum1,vpun(i)
+                    enddo
+                 endif
 
-!     endif
-  
-     if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
-        nfn == 1 ) exit
-   enddo ! enddo do NFILES
+                 if(ndim(i).eq.5) &
+                      write(iunit,2008) vp(i),nzvp(i),vpln(i),vpun(i)
+
+              endif
+           enddo
+           write(iunit,2002) 'endvars'
+           close(iunit)
+
+        enddo ! enddo nas unidades de escrita
+
+        !     endif
+
+        if(anl2gra(1:ianl2gra).ne.'ONE'.and.anl2gra(1:ianl2gra).ne.'one' .and. &
+             nfn == 1 ) exit
+     enddo ! enddo do NFILES
 
   enddo  !enddo do NGRIDS
 
@@ -511,7 +554,7 @@ program ramspost
 2007 format('vars ',i4)
 2008 format(a10,i4,' 99    - RAMS : ',a40,'[',a8,']')
 2055 format(60f7.0)
-close (iunit+1)
+  close (iunit+1)
   stop
 end program ramspost
 
@@ -547,7 +590,7 @@ subroutine ep_getvar(cvar,rout,a,b,                      &
      enddo
   ELSE
      do k=1,nz
-	do i=1,nx
+        do i=1,nx
            do j=1,ny
               rout(i,j,k)=a(i,j,k)
               !cc
@@ -656,7 +699,7 @@ end subroutine RAMS_filelist
 ! --------------------------------------------------------
 
 subroutine ep_putvar(rout,a,nx,ny,nxa,nxb,nya,nyb,   &
-                     nz,nrec,istartz,iendz)
+     nz,nrec,istartz,iendz)
   dimension a(nx,ny),rout(nx,ny,nz)
   integer istartz,iendz
   ! 
@@ -799,7 +842,7 @@ Subroutine proj_rams_to_grads(vp,n,nxr,nyr,nzz,nxg,nyg,     &
 
            rr1=   rout(i1,j1,k)*(1.-r1)+rout(i2,j1,k)*(1.-r2) 
            rr2=   rout(i1,j2,k)*(1.-r1)+rout(i2,j2,k)*(1.-r2) 
-	   routgrads(i,j,k)=rr1*(1.-r3)+          rr2*(1.-r4)
+           routgrads(i,j,k)=rr1*(1.-r3)+          rr2*(1.-r4)
 
            !	   print*,rr1,rr2,rout(i1,j1,k),routgrads(i,j,k)
 

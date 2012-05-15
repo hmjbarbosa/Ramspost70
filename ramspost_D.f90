@@ -288,36 +288,69 @@ subroutine makefnam(fname,prefix,tinc,iyr,imn,idy,itm,type,post,fmt)
 
 ! creates standard timestamped filename
 
-implicit none
-integer iyr, imn, idy, itm
-integer oyr, omn, ody, otm
-integer ib1,ib2
-real tinc
-character*(*) fname,prefix,post
-character dstring*40,fmt*3,type*1
+  implicit none
+  integer, intent(in) :: iyr, imn, idy, itm
+  integer :: oyr, omn, ody, otm
+  integer :: ib1,ib2
+  real, intent(in) ::  tinc
+  character(len=*), intent(out) :: fname
+  character(len=*), intent(in) :: prefix
+  character(len=*), intent(in) :: post
+  character(len=3), intent(in) :: fmt
+  character(len=1), intent(in) :: type
+  character(len=40) :: dstring
 
 !print*,iyr,imn,idy,itm,tinc
-call date_add_to(iyr,imn,idy,itm,tinc,'s',oyr,omn,ody,otm)
+!  call date_add_to(iyr,imn,idy,itm,tinc,'s',oyr,omn,ody,otm)
+  call date_add_to(iyr,imn,idy,itm,-1.,'s',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-59.,'s',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-59.99,'s',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-19.,'m',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-19.99,'m',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-8.33,'h',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+  call date_add_to(iyr,imn,idy,itm,-8.34,'h',oyr,omn,ody,otm)
+print*,'makefnam:: in = ',iyr,imn,idy,itm
+print*,'makefnam:: out= ',oyr,omn,ody,otm
+print*,'makefnam:: dt = ',tinc
+stop
 !print*,oyr,omn,ody,otm
 
-write(dstring,100) '-',type,'-',oyr,'-',omn,'-',ody,'-',otm
-100  format(3a1,i4.4,a1,i2.2,a1,i2.2,a1,i6.6)
+  write(dstring,100) '-',type,'-',oyr,'-',omn,'-',ody,'-',otm
+100 format(3a1,i4.4,a1,i2.2,a1,i2.2,a1,i6.6)
 
-ib1=index(prefix,' ')
-fname=prefix(1:ib1-1)//dstring(1:20)
+  ib1=index(prefix,' ')
+  fname=prefix(1:ib1-1)//dstring(1:20)
 !print*,ib1,prefix,' --',dstring(1:20)
 !print*,fname,ib1,prefix(1:ib1-1),dstring(1:20)
 
-if (len_trim(post).gt.0) then
-   ib1 = index(fname,' ')
-   ib2 = index(post,' ')
-   fname = fname(1:ib1-1)//'-'//post(1:len(post))
-endif
-ib1 = index(fname,' ')
-fname = fname(1:ib1-1)//'.'//fmt(1:3)
+  if (len_trim(post).gt.0) then
+     ib1 = index(fname,' ')
+     ib2 = index(post,' ')
+     fname = fname(1:ib1-1)//'-'//post(1:len(post))
+  endif
+  ib1 = index(fname,' ')
+  fname = fname(1:ib1-1)//'.'//fmt(1:3)
 !print*,fname
-return
-end
+  return
+end subroutine makefnam
 
 !***************************************************************************
 !***************************************************************************

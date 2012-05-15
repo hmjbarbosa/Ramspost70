@@ -91,78 +91,106 @@ end
 
 !***************************************************************************
 
-subroutine date_add_to (inyear,inmonth,indate,inhour  &
-                        ,tinc,tunits,outyear,outmonth,outdate,outhour)
+subroutine date_add_to (inyear,inmonth,indate,inhour,  &
+     tinc,tunits,outyear,outmonth,outdate,outhour)
 
+  implicit none
 ! add a time increment to a date and output new date
 ! -> uses hhmmss for hours, 4 digit year
 
-integer inyear,inmonth,indate,inhour  &
-       ,outyear,outmonth,outdate,outhour
-real tinc
-character*1 tunits
-dimension mondays(12)
-data mondays/31,28,31,30,31,30,31,31,30,31,30,31/
+  ! INPUT/OUTPUT
+  integer, intent(in) :: inyear,inmonth,indate,inhour
+  integer, intent(out) :: outyear,outmonth,outdate,outhour
+  real, intent(in) :: tinc
+  character(len=1), intent(in) :: tunits
+
+  ! CONSTANTS
+  integer, dimension(12) :: mondays
+  data mondays/31,28,31,30,31,30,31,31,30,31,30,31/
+
+  ! LOCAL VARIABLES
+  real(kind=8) :: ttinc
+  real(kind=8) :: xhourin, xminin, xsecin, strtim
+  integer :: izhours, izmin, izsec,iround,iadddays,idays
 
 ! convert input time to seconds
 
-ttinc=tinc
-if(tunits.eq.'m') ttinc=tinc*60.
-if(tunits.eq.'h') ttinc=tinc*3600.
-if(tunits.eq.'d') ttinc=tinc*86400.
+  print*,'date_add_to:: initial= ',inyear,inmonth,indate,inhour
+  print*,'date_add_to:: tinc= ',tinc
+  print*,'date_add_to:: tunits=' ,tunits
+
+  ttinc=tinc
+  if(tunits.eq.'m') ttinc=tinc*60.
+  if(tunits.eq.'h') ttinc=tinc*3600.
+  if(tunits.eq.'d') ttinc=tinc*86400.
 !print*,'inc:',tinc,tunits,ttinc
 
-xhourin=inhour/10000
-xminin=mod(inhour,10000)/100
-xsecin=mod(inhour,100)
-strtim=xhourin+xminin/60.+xsecin/3600.
+  xhourin=inhour/10000
+  xminin=mod(inhour,10000)/100
+  xsecin=mod(inhour,100)
+  strtim=xhourin+xminin/60.+xsecin/3600. ! in hours
+!  strtim=xhourin*3600.+xminin*60.+xsecin ! now in seconds
+print*, 'date_add_to:: x= ',xhourin, xminin, xsecin, strtim
 !print*,'strtim=',strtim
 
-izhours=int(mod(strtim+ttinc/3600.,24.)+.001)
-izmin  =int(mod(strtim+ttinc/3600.,1.)*60+.001)
-izsec  =int(mod(strtim*3600.+ttinc,60.)+.001)
+!  strtim=strtim+ttinc
+print*,'strtim=',strtim
+!  izsec  =int(mod(strtim,60.))
+!  izmin  =int(mod((strtim-izsec)/60.,60.))
+!  izhours=int(mod((strtim-izsec-60.*izmin)/3600.,24.))
+
+  izhours=int(mod(strtim+ttinc/3600.,24.)+.001)
+  izmin  =int(mod(strtim+ttinc/3600.,1.)*60+.001)
+  izsec  =int(mod(strtim*3600.+ttinc,60.)+.001)
+print*, 'date_add_to:: iz= ',izhours, izmin, izsec
 !print*,'izs=',izhours,izmin,izsec
 
-outhour= izhours*10000+izmin*100+izsec
+  outhour= izhours*10000+izmin*100+izsec
 
-iround=.001
-if(ttinc<0.) iround=-.001
-iadddays=int((strtim+ttinc/3600.)/24.+iround)
+  iround=.001
+  if(ttinc<0.) iround=-.001
+  iadddays=int((strtim+ttinc/3600.)/24.+iround)
+!  iadddays=int((strtim-izsec-60.*izmin-3600.*izhours)/86400.)
+print*,'iadddays=',iadddays
 
-outyear=inyear
-outdate=indate+iadddays
-outmonth=inmonth
+  outyear=inyear
+  outdate=indate+iadddays
+  outmonth=inmonth
 
-20 continue
-   idays=mondays(outmonth)
-   if(outmonth==2.and.mod(outyear,4)==0)  idays=29
+!20 continue
+  do while(1)
+print*,'date= ',outyear,outmonth,outdate
 
-   if(outdate.gt.idays) then
-      outdate=outdate-idays
-      outmonth=outmonth+1
-      if(outmonth.gt.12) then
-         outyear=outyear+1
-         outmonth=1
-      endif
-   elseif(outdate.lt.1) then
-      if(outmonth.eq.1)outmonth=13
-      idays=mondays(outmonth-1)
-      if(outmonth-1.eq.2.and.mod(outyear,4).eq.0)  idays=29
-      outdate=idays+outdate
-      outmonth=outmonth-1
-      if(outmonth.eq.12)outyear=outyear-1
-   else
-      goto 21
-   endif
-
-   goto 20
+     idays=mondays(outmonth)
+     if(outmonth==2.and.mod(outyear,4)==0)  idays=29
+     
+     if(outdate.gt.idays) then
+        outdate=outdate-idays
+        outmonth=outmonth+1
+        if(outmonth.gt.12) then
+           outyear=outyear+1
+           outmonth=1
+        endif
+     elseif(outdate.lt.1) then
+        if(outmonth.eq.1)outmonth=13
+        idays=mondays(outmonth-1)
+        if(outmonth-1.eq.2.and.mod(outyear,4).eq.0)  idays=29
+        outdate=idays+outdate
+        outmonth=outmonth-1
+        if(outmonth.eq.12)outyear=outyear-1
+     else
+        exit
+!        goto 21
+     endif
+  enddo
+!  goto 20
 
 21 continue
 
 !print*,'out stuff:',outyear,outmonth,outdate,outhour
 
-return
-end
+  return
+end subroutine date_add_to
 
 !***************************************************************************
 

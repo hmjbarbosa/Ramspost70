@@ -23,11 +23,11 @@ LIBUTILS=$(UTILS_LIB)/libutils-intel-$(UTILS_VERSION)-ramspost.a
 #-------------  LINUX Intel v. 8.1 free ifort/icc  ---------------
 CMACH=PC_LINUX1
 F_COMP=ifort
-F_OPTS=-assume byterecl -FR -O3 -static
+F_OPTS=-assume byterecl -FR -O1 -static
 C_COMP=icc
-C_OPTS=-O3 -DUNDERSCORE -DLITTLE
+C_OPTS=-O1 -DUNDERSCORE -DLITTLE
 LOADER=ifort 
-LOADER_OPTS=-assume byterecl -FR -O3 -static  
+LOADER_OPTS=-assume byterecl -FR -O1 -static  
 LIBS=
 #-----------------------------------------------------------------
 
