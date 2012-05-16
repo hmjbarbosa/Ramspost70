@@ -380,7 +380,7 @@ program ramspost
      iunit = 20
 
      do nfn=1,nfiles,nstep
-print*,'----------- file=',nfn
+!print*,'----------- file=',nfn
 
         iuniti=iunit
         iunitf=iunit
@@ -395,42 +395,42 @@ print*,'----------- file=',nfn
            ! case 2 : one analysis at one grads file
         elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
 !hmjb
-print*,'h1=',ifdates(nfn),iyear,imon,idate
+!print*,'h1=',ifdates(nfn),iyear,imon,idate
            call date1(ifdates(nfn),iyear,imon,idate)
-print*,'hh1=',ifdates(nfn),iyear,imon,idate
+!print*,'hh1=',ifdates(nfn),iyear,imon,idate
 
 
-print*,'h2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
-     iftimes(nfn),'A','g'//cgrid,'ctl'
+!print*,'h2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
+!     iftimes(nfn),'A','g'//cgrid,'ctl'
            call makefnam(wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
                 iftimes(nfn),'A','g'//cgrid,'ctl')      
-print*,'hh2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
-     iftimes(nfn),'A','g'//cgrid,'ctl'
+!print*,'hh2=',wfln(nfn),gprefix(1:ic)//' ',0,iyear,imon,idate,  &
+!     iftimes(nfn),'A','g'//cgrid,'ctl'
 
            open(iunit,file=wfln(nfn),status='unknown')
 
-print*,'h3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
+!print*,'h3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
            write(iunit,2001) '^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
-print*,'hh3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
+!print*,'hh3=','^'//wfln(nfn)(1:lastchar(wfln(nfn))-3)//'gra'
 
            ! case 2 with template
            if(nfn==1) then
               call date1(ifdates(nfn),iyear,imon,idate)	   
 
-print*,'h4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
-     iftimes(nfn),'A','g'//cgrid,'ctl'
+!print*,'h4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
+!     iftimes(nfn),'A','g'//cgrid,'ctl'
               call makefnam(wfln(nfn),gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
                    iftimes(nfn),'A','g'//cgrid,'ctl')      
-print*,'hh4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
-     iftimes(nfn),'A','g'//cgrid,'ctl'
+!print*,'hh4=',gprefix(1:ic)//'-template'//' ',0,iyear,imon,idate,  &
+!     iftimes(nfn),'A','g'//cgrid,'ctl'
 
 
               open(iunit+1,file=wfln(nfn),status='unknown')
               !valido somente para hora cheia  --------------------------------------vvvv-
 
-print*,'h5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
+!print*,'h5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
               write(iunit+1,2001) '^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
-print*,'hh5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
+!print*,'hh5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.gra'
               write(iunit+1,2002) 'options template'
               iunitf=iunit+1
            endif
@@ -439,7 +439,7 @@ print*,'hh5=','^'//gprefix(1:ic)//'-A-'//'%y4-%m2-%d2-%h2%n200-'//'g'//cgrid//'.
         !----
 
         do iunit=iuniti,iunitf
-print*,'==== iunit=',iunit
+!print*,'==== iunit=',iunit
 
            write(iunit,2002) 'undef -9.99e33'
            write(iunit,2002) 'title RAMS 4.2 Output'
@@ -465,8 +465,8 @@ print*,'==== iunit=',iunit
               ! case 2
            elseif(anl2gra(1:ianl2gra).eq.'ONE'.or.anl2gra(1:ianl2gra).eq.'one') then
 
-print*,'h6=',nfn,iyear,imonth,idate,ihour,imin
-print*,'iftime=',iftimes(nfn)
+!print*,'h6=',nfn,iyear,imonth,idate,ihour,imin
+!print*,'iftime=',iftimes(nfn)
 !              call RAMS_get_time_init(nfn,iyear,imonth,idate,ihour,imin)
 !              write(chdate(1:2),'(i2.2)') ihour
 !              write(chdate(4:5),'(i2.2)') imin
@@ -476,19 +476,19 @@ imin=(iftimes(nfn)-ihour*10000)/100
               write(chdate(4:5),'(i2.2)') imin
               write(chdate(7:8),'(i2.2)') idate
               write(chdate(12:15),'(i4.2)') iyear
-print*,'h7=',ihour,imin,idate,iyear
+!print*,'h7=',ihour,imin,idate,iyear
               chdate(9:11)=cmo(imonth)(1:3)
-print*,'h8=',chdate
+!print*,'h8=',chdate
 
-print*,'escrevendo=',iuniti,iuniti+1,iunitf
+!print*,'escrevendo=',iuniti,iuniti+1,iunitf
 !              if(iunitf== iuniti)   then
               if(iunit== iuniti)   then
-print*,'aqui a'                 
+!print*,'aqui a'                 
                  write(iunit,2006) 1,chdate,chstep
               endif
 !              if(iunitf== iuniti+1) then
               if(iunit== iuniti+1) then
-print*,'aqui b'                 
+!print*,'aqui b'                 
                  write(iunit,2006) nfiles,chdate,chstep ! para template
               endif
 

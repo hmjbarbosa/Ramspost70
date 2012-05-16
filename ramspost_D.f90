@@ -302,36 +302,13 @@ subroutine makefnam(fname,prefix,tinc,iyr,imn,idy,itm,type,post,fmt)
 
 !hmjb
 !print*,iyr,imn,idy,itm,tinc
-!  call date_add_to(iyr,imn,idy,itm,tinc,'s',oyr,omn,ody,otm)
-  call date_add_to(iyr,imn,idy,itm,-1.,'s',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-59.,'s',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-59.99,'s',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-19.,'m',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-19.99,'m',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-8.33,'h',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-  call date_add_to(iyr,imn,idy,itm,-8.34,'h',oyr,omn,ody,otm)
-print*,'makefnam:: in = ',iyr,imn,idy,itm
-print*,'makefnam:: out= ',oyr,omn,ody,otm
-print*,'makefnam:: dt = ',tinc
-stop
+  call date_add_to(iyr,imn,idy,itm,tinc,'s',oyr,omn,ody,otm)
+!  call date_add_to(iyr,imn,idy,itm,-1.5,'d',oyr,omn,ody,otm)
+!print*,'makefnam:: in = ',iyr,imn,idy,itm
+!print*,'makefnam:: out= ',oyr,omn,ody,otm
+!print*,'makefnam:: dt = ',tinc
+!print*,'------------------------------'
+!stop
 !print*,oyr,omn,ody,otm
 
   write(dstring,100) '-',type,'-',oyr,'-',omn,'-',ody,'-',otm
